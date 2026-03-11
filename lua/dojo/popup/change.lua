@@ -1,9 +1,9 @@
 --- Change popup: new, describe, squash, split, abandon, edit, duplicate.
 local M = {}
 
-local popup = require("neojj.popup")
-local commands = require("neojj.jj.commands")
-local status = require("neojj.ui.status")
+local popup = require("dojo.popup")
+local commands = require("dojo.jj.commands")
+local status = require("dojo.ui.status")
 
 function M.open()
   local meta = status.cursor_meta()
@@ -14,7 +14,7 @@ function M.open()
     items = {
       { "n", "new change", function() commands.new_change() end },
       { "d", "describe", function()
-        require("neojj.ui.describe").open(rev)
+        require("dojo.ui.describe").open(rev)
       end },
       { "s", "squash into parent", function() commands.squash() end },
       { "S", "split (interactive)", function() commands.split() end },

@@ -3,8 +3,8 @@
 --- :w saves it via `jj describe`, :q! cancels.
 local M = {}
 
-local jj = require("neojj.jj")
-local commands = require("neojj.jj.commands")
+local jj = require("dojo.jj")
+local commands = require("dojo.jj.commands")
 
 --- Open the describe editor for a revision.
 ---@param rev string|nil revision to describe (nil = working copy "@")
@@ -36,7 +36,7 @@ function M._open_editor(rev, current_desc)
   vim.bo[buf].buftype = "acwrite" -- lets us intercept :w
   vim.bo[buf].bufhidden = "wipe"
   vim.bo[buf].filetype = "markdown"
-  vim.api.nvim_buf_set_name(buf, "neojj://describe")
+  vim.api.nvim_buf_set_name(buf, "dojo://describe")
 
   -- Fill with current description
   local lines = vim.split(current_desc, "\n")
@@ -53,7 +53,7 @@ function M._open_editor(rev, current_desc)
   pcall(vim.api.nvim_win_set_cursor, win, { 1, first_line_len })
 
   -- Placeholder virtual text when empty
-  local ns = vim.api.nvim_create_namespace("neojj_describe")
+  local ns = vim.api.nvim_create_namespace("dojo_describe")
   local is_empty = current_desc == "" or current_desc == "(no description set)"
 
   local function update_placeholder()

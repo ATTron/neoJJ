@@ -1,8 +1,8 @@
 --- Git popup (fetch, push, export, import, remotes).
 local M = {}
 
-local popup = require("neojj.popup")
-local commands = require("neojj.jj.commands")
+local popup = require("dojo.popup")
+local commands = require("dojo.jj.commands")
 
 function M.open()
   popup.open({

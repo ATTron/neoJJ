@@ -1,4 +1,4 @@
-# neoJJ
+# dojo.nvim
 
 [Magit](https://github.com/magit/magit) and [neogit](https://github.com/NeogitOrg/neogit) inspired interface for [jj (Jujutsu)](https://github.com/jj-vcs/jj) inside Neovim.
 
@@ -10,15 +10,15 @@
 
 ```lua
 {
-  "ATTron/neoJJ",
+  "ATTron/dojo.nvim",
   dependencies = {
     "nvim-tree/nvim-web-devicons", -- optional, used for pretty icons
   },
   keys = {
-    { "<leader>jj", "<cmd>NeoJJ<cr>", desc = "Open NeoJJ" },
+    { "<leader>jj", "<cmd>Dojo<cr>", desc = "Open Dojo" },
   },
   config = function()
-    require("neojj").setup({
+    require("dojo").setup({
       icons = true, -- enable nerd font icons (requires a patched font)
     })
   end,
@@ -33,19 +33,19 @@ Neovim 0.12 ships with a built-in package manager. Add this to your config:
 vim.pack.add({
   -- optional, used for pretty icons
   { src = { "https://github.com/nvim-tree/nvim-web-devicons"},
-  { src = "https://github.com/ATTron/neoJJ" },
+  { src = "https://github.com/ATTron/dojo.nvim" },
 })
 
-require("neojj").setup({})
+require("dojo").setup({})
 
-vim.keymap.set("n", "<leader>jj", "<cmd>NeoJJ<CR>")
+vim.keymap.set("n", "<leader>jj", "<cmd>Dojo<CR>")
 ```
 
 ## Config
 
 The default config is below:
 ```lua
-require("neojj").setup({
+require("dojo").setup({
   jj_binary = "jj",           -- path to jj if it's not on PATH
   log_limit = 15,             -- how many log entries to show
   float_border = "rounded",   -- border style for popups
@@ -75,7 +75,7 @@ Requires a [Nerd Font](https://www.nerdfonts.com/) in your terminal. When `icons
 
 ## Getting started
 
-Open Neovim in any jj workspace and run `:NeoJJ`
+Open Neovim in any jj workspace and run `:Dojo`
 
 You'll see a status buffer that looks something like this:
 
@@ -142,7 +142,7 @@ These open floating menus with more options. Hit a key to pick an action, `Esc` 
 
 ## Aliases
 
-neoJJ reads your aliases from `jj config list aliases` — anything in `~/.jjconfig.toml`, `~/.config/jj/config.toml`, or your repo config. They show up in the `x` popup with auto-assigned keys, and as a collapsible section in the status buffer.
+dojo.nvim reads your aliases from `jj config list aliases` — anything in `~/.jjconfig.toml`, `~/.config/jj/config.toml`, or your repo config. They show up in the `x` popup with auto-assigned keys, and as a collapsible section in the status buffer.
 
 If an alias uses `util exec` (like a pre-commit hook or custom script), it opens in a terminal split so it can do its thing with proper I/O. Regular aliases run in the background and show output in a scratch buffer.
 
@@ -150,29 +150,29 @@ If an alias uses `util exec` (like a pre-commit hook or custom script), it opens
 
 | Command | What it opens |
 |---------|--------------|
-| `:NeoJJ` | Status buffer |
-| `:NeoJJLog` | Full log with graph |
-| `:NeoJJOpLog` | Operation log |
-| `:NeoJJDebug` | Debug log |
-| `:NeoJJDebugClear` | Clear debug log |
+| `:Dojo` | Status buffer |
+| `:DojoLog` | Full log with graph |
+| `:DojoOpLog` | Operation log |
+| `:DojoDebug` | Debug log |
+| `:DojoDebugClear` | Clear debug log |
 
 ## Debugging
 
-neoJJ is young. If you hit a bug, enable debug logging and include the output in your issue:
+dojo.nvim is young. If you hit a bug, enable debug logging and include the output in your issue:
 
 ```lua
-require("neojj").setup({
+require("dojo").setup({
   debug = true,
 })
 ```
 
-This logs every jj command and its result to `~/.local/state/nvim/neojj.log`. Run `:NeoJJDebug` to open it, `:NeoJJDebugClear` to reset it.
+This logs every jj command and its result to `~/.local/state/nvim/dojo.log`. Run `:DojoDebug` to open it, `:DojoDebugClear` to reset it.
 
 ## Why?
 
 Neogit exists for git users using neovim and wanting the magit experience. I wanted something very similar to this experience but with jj workflow.
 
-jj has a fundamentally different model; your working copy *is* a commit, there's no staging area, bookmarks replace branches, and the operation log lets you undo anything. neoJJ respects all of that
+jj has a fundamentally different model; your working copy *is* a commit, there's no staging area, bookmarks replace branches, and the operation log lets you undo anything. dojo.nvim respects all of that
 
 ## License
 

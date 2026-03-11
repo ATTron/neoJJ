@@ -1,12 +1,12 @@
 --- Operation log buffer.
 local M = {}
 
-local jj = require("neojj.jj")
-local parser = require("neojj.jj.parser")
-local ui = require("neojj.ui")
-local render = require("neojj.ui.render")
+local jj = require("dojo.jj")
+local parser = require("dojo.jj.parser")
+local ui = require("dojo.ui")
+local render = require("dojo.ui.render")
 
-local BUF_NAME = "neojj://oplog"
+local BUF_NAME = "dojo://oplog"
 local line_meta = {}
 
 --- Open the operation log view.
@@ -32,7 +32,7 @@ function M._display(stdout)
   for _, entry in ipairs(parsed) do
     local hls = {}
     if entry.marker == "@" then
-      table.insert(hls, { "NeoJJCurrent", 0, #entry.text })
+      table.insert(hls, { "DojoCurrent", 0, #entry.text })
     end
     table.insert(lines, {
       text = entry.text,
@@ -48,7 +48,7 @@ function M._display(stdout)
   local function go_back()
     ui.close(BUF_NAME)
     line_meta = {}
-    require("neojj.ui.status").open()
+    require("dojo.ui.status").open()
   end
 
   map(buf, "<BS>", go_back)
@@ -60,7 +60,7 @@ function M._display(stdout)
     if meta and meta.op_id then
       vim.ui.select({ "Yes", "No" }, { prompt = "Restore to operation " .. meta.op_id .. "?" }, function(choice)
         if choice == "Yes" then
-          require("neojj.jj.commands").op_restore(meta.op_id)
+          require("dojo.jj.commands").op_restore(meta.op_id)
         end
       end)
     end

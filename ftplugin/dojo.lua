@@ -1,4 +1,4 @@
---- Filetype settings for neojj buffers.
+--- Filetype settings for dojo buffers.
 vim.opt_local.modifiable = false
 vim.opt_local.wrap = false
 vim.opt_local.spell = false

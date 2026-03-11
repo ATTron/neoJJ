@@ -1,10 +1,10 @@
 --- Dynamic alias popup — auto-discovered from jj config.
 local M = {}
 
-local popup = require("neojj.popup")
-local aliases_mod = require("neojj.jj.aliases")
-local jj = require("neojj.jj")
-local commands = require("neojj.jj.commands")
+local popup = require("dojo.popup")
+local aliases_mod = require("dojo.jj.aliases")
+local jj = require("dojo.jj")
+local commands = require("dojo.jj.commands")
 
 --- Assign keys to aliases, avoiding conflicts.
 ---@param aliases table[]
@@ -60,7 +60,7 @@ local function assign_keys(aliases)
             else
               vim.notify("jj " .. a.name .. " done", vim.log.levels.INFO)
             end
-            local status = require("neojj.ui.status")
+            local status = require("dojo.ui.status")
             if status.is_open() then status.refresh() end
           end)
         end

@@ -1,11 +1,11 @@
---- Simple debug logger for neoJJ.
+--- Simple debug logger for dojo.nvim.
 --- Writes to a file so users can attach logs to issue reports.
 local M = {}
 
-local log_path = vim.fn.stdpath("state") .. "/neojj.log"
+local log_path = vim.fn.stdpath("state") .. "/dojo.log"
 
 local function is_enabled()
-  return require("neojj.config").values.debug
+  return require("dojo.config").values.debug
 end
 
 ---@param level string "DEBUG"|"INFO"|"WARN"|"ERROR"

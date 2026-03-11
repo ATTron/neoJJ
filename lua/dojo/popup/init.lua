@@ -2,7 +2,7 @@
 --- Shows a Magit-style transient menu with single-keypress dispatch.
 local M = {}
 
-local config = require("neojj.config")
+local config = require("dojo.config")
 
 -- Track all open popup windows so we can close them externally
 M._open_wins = {}
@@ -47,18 +47,18 @@ function M.open(opts)
   })
 
   -- Highlights
-  local ns = vim.api.nvim_create_namespace("neojj_popup")
+  local ns = vim.api.nvim_create_namespace("dojo_popup")
   -- Title highlight
   vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, {
     end_col = #lines[1],
-    hl_group = "NeoJJPopupTitle",
+    hl_group = "DojoPopupTitle",
   })
   -- Key highlights
   for i, item in ipairs(items) do
     local line_idx = i + 1 -- offset for title + blank line
     vim.api.nvim_buf_set_extmark(buf, ns, line_idx, 2, {
       end_col = 2 + #item[1],
-      hl_group = "NeoJJPopupKey",
+      hl_group = "DojoPopupKey",
     })
   end
 

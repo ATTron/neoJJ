@@ -1,9 +1,9 @@
 --- Keymap registration for the status buffer.
 local M = {}
 
-local status = require("neojj.ui.status")
-local commands = require("neojj.jj.commands")
-local map = require("neojj.ui.render").map
+local status = require("dojo.ui.status")
+local commands = require("dojo.jj.commands")
+local map = require("dojo.ui.render").map
 
 --- Attach all status buffer keybindings.
 ---@param buf integer
@@ -23,9 +23,9 @@ function M.attach(buf)
     local meta = status.cursor_meta()
     if not meta then return end
     if meta.type == "file" then
-      require("neojj.ui.diff").show_file(meta.path)
+      require("dojo.ui.diff").show_file(meta.path)
     elseif meta.change_id then
-      require("neojj.ui.diff").show(meta.change_id)
+      require("dojo.ui.diff").show(meta.change_id)
     end
   end)
 
@@ -34,7 +34,7 @@ function M.attach(buf)
   map(buf, "D", function()
     local meta = status.cursor_meta()
     local rev = meta and meta.change_id or nil
-    require("neojj.ui.describe").open(rev)
+    require("dojo.ui.describe").open(rev)
   end)
   map(buf, "s", function() commands.squash() end)
   map(buf, "e", function()
@@ -60,25 +60,25 @@ function M.attach(buf)
   map(buf, "d", function()
     local meta = status.cursor_meta()
     if meta and meta.change_id then
-      require("neojj.ui.diff").show(meta.change_id)
+      require("dojo.ui.diff").show(meta.change_id)
     elseif meta and meta.path then
-      require("neojj.ui.diff").show_file(meta.path)
+      require("dojo.ui.diff").show_file(meta.path)
     end
   end)
 
   -- Full working copy diff
-  map(buf, "S", function() require("neojj.ui.diff").show() end)
+  map(buf, "S", function() require("dojo.ui.diff").show() end)
 
   -- Full log view
-  map(buf, "l", function() require("neojj.ui.log").open() end)
+  map(buf, "l", function() require("dojo.ui.log").open() end)
 
   -- Popups
-  map(buf, "c", function() require("neojj.popup.change").open() end)
-  map(buf, "b", function() require("neojj.popup.bookmark").open() end)
-  map(buf, "R", function() require("neojj.popup.rebase").open() end)
-  map(buf, "f", function() require("neojj.popup.remote").open() end)
-  map(buf, "o", function() require("neojj.popup.operation").open() end)
-  map(buf, "x", function() require("neojj.popup.aliases").open() end)
+  map(buf, "c", function() require("dojo.popup.change").open() end)
+  map(buf, "b", function() require("dojo.popup.bookmark").open() end)
+  map(buf, "R", function() require("dojo.popup.rebase").open() end)
+  map(buf, "f", function() require("dojo.popup.remote").open() end)
+  map(buf, "o", function() require("dojo.popup.operation").open() end)
+  map(buf, "x", function() require("dojo.popup.aliases").open() end)
 
   -- Help
   map(buf, "?", function() M._show_help() end)
@@ -86,8 +86,8 @@ end
 
 --- Show a help popup with all keybindings.
 function M._show_help()
-  require("neojj.popup").open({
-    title = "NeoJJ Help",
+  require("dojo.popup").open({
+    title = "Dojo Help",
     width = 50,
     items = {
       { "q", "close", function() end },

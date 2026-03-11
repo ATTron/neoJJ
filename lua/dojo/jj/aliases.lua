@@ -1,7 +1,7 @@
 --- Discover and parse aliases from jj config.
 local M = {}
 
-local jj = require("neojj.jj")
+local jj = require("dojo.jj")
 
 ---@type table[]|nil
 M._cache = nil
@@ -24,7 +24,7 @@ local function parse_alias_config(stdout)
           description = table.concat(parts, " "),
         })
       elseif not ok then
-        vim.notify("neoJJ: failed to parse alias '" .. name .. "'", vim.log.levels.WARN)
+        vim.notify("dojo.nvim: failed to parse alias '" .. name .. "'", vim.log.levels.WARN)
       end
     end
   end

@@ -1,13 +1,13 @@
 --- Buffer creation and singleton management.
 local M = {}
 
-local config = require("neojj.config")
+local config = require("dojo.config")
 
 -- Track singleton buffers by name
 local singletons = {}
 
 --- Create or reuse a singleton buffer for the given name.
----@param name string buffer name (e.g., "neojj://status")
+---@param name string buffer name (e.g., "dojo://status")
 ---@return integer bufnr
 function M.get_or_create(name)
   local existing = singletons[name]
@@ -20,7 +20,7 @@ function M.get_or_create(name)
   vim.bo[buf].buftype = "nofile"
   vim.bo[buf].bufhidden = "wipe"
   vim.bo[buf].swapfile = false
-  vim.bo[buf].filetype = "neojj"
+  vim.bo[buf].filetype = "dojo"
 
   singletons[name] = buf
 

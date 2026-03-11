@@ -1,12 +1,12 @@
 --- Full log buffer with graph.
 local M = {}
 
-local jj = require("neojj.jj")
-local parser = require("neojj.jj.parser")
-local ui = require("neojj.ui")
-local render = require("neojj.ui.render")
+local jj = require("dojo.jj")
+local parser = require("dojo.jj.parser")
+local ui = require("dojo.ui")
+local render = require("dojo.ui.render")
 
-local BUF_NAME = "neojj://log"
+local BUF_NAME = "dojo://log"
 local line_meta = {}
 
 --- Open the full log view.
@@ -32,11 +32,11 @@ function M._display(stdout)
   for _, entry in ipairs(parsed) do
     local hls = {}
     if entry.marker == "@" then
-      table.insert(hls, { "NeoJJCurrent", 0, #entry.text })
+      table.insert(hls, { "DojoCurrent", 0, #entry.text })
     elseif entry.change_id then
       local start = entry.text:find(entry.change_id, 1, true)
       if start then
-        table.insert(hls, { "NeoJJChangeId", start - 1, start - 1 + #entry.change_id })
+        table.insert(hls, { "DojoChangeId", start - 1, start - 1 + #entry.change_id })
       end
     end
 
@@ -54,7 +54,7 @@ function M._display(stdout)
   local function go_back()
     ui.close(BUF_NAME)
     line_meta = {}
-    require("neojj.ui.status").open()
+    require("dojo.ui.status").open()
   end
 
   map(buf, "<BS>", go_back)
@@ -64,13 +64,13 @@ function M._display(stdout)
   map(buf, "<CR>", function()
     local meta = render.get_cursor_meta(line_meta)
     if meta and meta.change_id then
-      require("neojj.ui.diff").show(meta.change_id)
+      require("dojo.ui.diff").show(meta.change_id)
     end
   end)
   map(buf, "e", function()
     local meta = render.get_cursor_meta(line_meta)
     if meta and meta.change_id then
-      require("neojj.jj.commands").edit(meta.change_id)
+      require("dojo.jj.commands").edit(meta.change_id)
     end
   end)
 end

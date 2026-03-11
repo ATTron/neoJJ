@@ -1,10 +1,10 @@
 --- Bookmark popup.
 local M = {}
 
-local popup = require("neojj.popup")
-local commands = require("neojj.jj.commands")
-local status = require("neojj.ui.status")
-local config = require("neojj.config")
+local popup = require("dojo.popup")
+local commands = require("dojo.jj.commands")
+local status = require("dojo.ui.status")
+local config = require("dojo.config")
 
 function M.open()
   local meta = status.cursor_meta()

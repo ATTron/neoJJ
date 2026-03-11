@@ -1,14 +1,14 @@
---- Main status buffer — the heart of neoJJ.
+--- Main status buffer — the heart of dojo.nvim.
 --- Combines jj status + jj log + bookmarks into one view.
 local M = {}
 
-local config = require("neojj.config")
-local jj = require("neojj.jj")
-local parser = require("neojj.jj.parser")
-local ui = require("neojj.ui")
-local render = require("neojj.ui.render")
+local config = require("dojo.config")
+local jj = require("dojo.jj")
+local parser = require("dojo.jj.parser")
+local ui = require("dojo.ui")
+local render = require("dojo.ui.render")
 
-local BUF_NAME = "neojj://status"
+local BUF_NAME = "dojo://status"
 
 -- Optional: nvim-web-devicons for file icons
 local has_devicons, devicons = pcall(require, "nvim-web-devicons")
@@ -105,7 +105,7 @@ function M.open()
     end
     ui.open(buf, split)
     M.refresh()
-    require("neojj.keymap").attach(buf)
+    require("dojo.keymap").attach(buf)
     M._start_watcher(root)
   end)
 end
@@ -113,7 +113,7 @@ end
 --- Close the status buffer.
 function M.close()
   M._stop_watcher()
-  require("neojj.popup").close_all()
+  require("dojo.popup").close_all()
   ui.close(BUF_NAME)
   line_meta = {}
 end
@@ -218,11 +218,11 @@ function M._render(buf, results, saved_row)
     fold_key = fold_key or title
     local arrow = folds[fold_key] and "▸" or "▾"
     local text = arrow .. " " .. title
-    local hls = { { "NeoJJSectionHeader", 0, #text } }
+    local hls = { { "DojoSectionHeader", 0, #text } }
     if hint then
       local hint_start = #text
       text = text .. "  " .. hint
-      table.insert(hls, { "NeoJJDim", hint_start, #text })
+      table.insert(hls, { "DojoDim", hint_start, #text })
     end
     add({
       text = text,
@@ -239,14 +239,14 @@ function M._render(buf, results, saved_row)
     -- "Change: abc123  Commit: def456  bookmarks"
     local text = prefix .. "Change: " .. entry.change_id .. "  Commit: " .. entry.commit_id
     local p = #prefix
-    table.insert(hls, { "NeoJJChangeId", p + 8, p + 8 + #entry.change_id })
-    table.insert(hls, { "NeoJJCommitId", p + 8 + #entry.change_id + 10, #text })
+    table.insert(hls, { "DojoChangeId", p + 8, p + 8 + #entry.change_id })
+    table.insert(hls, { "DojoCommitId", p + 8 + #entry.change_id + 10, #text })
 
     -- Append bookmarks inline on the same line
     if entry.bookmarks then
       text = text .. "  " .. icons.bookmarks .. entry.bookmarks
       local bm_start = #text - #entry.bookmarks
-      table.insert(hls, { "NeoJJBookmark", bm_start, #text })
+      table.insert(hls, { "DojoBookmark", bm_start, #text })
     end
 
     add({
@@ -262,8 +262,8 @@ function M._render(buf, results, saved_row)
     add({
       text = desc_text,
       highlights = no_desc
-        and { { "NeoJJDim", 0, #desc_text } }
-        or { { "NeoJJDescription", dp + 13, dp + 13 + #entry.description } },
+        and { { "DojoDim", 0, #desc_text } }
+        or { { "DojoDescription", dp + 13, dp + 13 + #entry.description } },
     })
   end
 
@@ -274,7 +274,7 @@ function M._render(buf, results, saved_row)
   else
     add({
       text = "  (no data)",
-      highlights = { { "NeoJJDim", 0, 11 } },
+      highlights = { { "DojoDim", 0, 11 } },
     })
   end
 
@@ -282,11 +282,11 @@ function M._render(buf, results, saved_row)
   if not folds["Working Copy (@)"] then
     for _, f in ipairs(status.files) do
       local badge_info = ({
-        M = { icons.modified, "NeoJJFileModified" },
-        A = { icons.added, "NeoJJFileAdded" },
-        D = { icons.deleted, "NeoJJFileDeleted" },
-        R = { icons.renamed, "NeoJJFileRenamed" },
-      })[f.status] or { icons.modified, "NeoJJFileModified" }
+        M = { icons.modified, "DojoFileModified" },
+        A = { icons.added, "DojoFileAdded" },
+        D = { icons.deleted, "DojoFileDeleted" },
+        R = { icons.renamed, "DojoFileRenamed" },
+      })[f.status] or { icons.modified, "DojoFileModified" }
       local status_icon, badge_hl = badge_info[1], badge_info[2]
 
       -- Get file icon from devicons if available
@@ -302,7 +302,7 @@ function M._render(buf, results, saved_row)
       local fi_end = si_end + #file_icon
       local hls = {
         { badge_hl, 2, si_end },
-        { "NeoJJFilePath", fi_end, fi_end + #f.path },
+        { "DojoFilePath", fi_end, fi_end + #f.path },
       }
       if icon_hl then
         table.insert(hls, { icon_hl, si_end, fi_end })
@@ -316,7 +316,7 @@ function M._render(buf, results, saved_row)
     if #status.files == 0 then
       add({
         text = "  " .. icons.clean .. "(clean)",
-        highlights = { { "NeoJJDim", 0, -1 } },
+        highlights = { { "DojoDim", 0, -1 } },
       })
     end
   end
@@ -345,13 +345,13 @@ function M._render(buf, results, saved_row)
           local plus_start = text:find("%+", bar_start)
           local minus_start = text:find("%-", bar_start)
           if plus_start then
-            table.insert(hls, { "NeoJJFileAdded", plus_start - 1, #text })
+            table.insert(hls, { "DojoFileAdded", plus_start - 1, #text })
           end
           if minus_start then
-            table.insert(hls, { "NeoJJFileDeleted", minus_start - 1, #text })
+            table.insert(hls, { "DojoFileDeleted", minus_start - 1, #text })
           end
         else
-          table.insert(hls, { "NeoJJDim", 0, #text })
+          table.insert(hls, { "DojoDim", 0, #text })
         end
         add({ text = text, highlights = hls, meta = meta })
       end
@@ -374,7 +374,7 @@ function M._render(buf, results, saved_row)
         if entry.conflict then
           add({
             text = "  " .. entry.change_id .. " (conflict)",
-            highlights = { { "NeoJJConflict", 2, #entry.change_id + 2 } },
+            highlights = { { "DojoConflict", 2, #entry.change_id + 2 } },
             meta = { type = "change", change_id = entry.change_id },
           })
         end
@@ -401,12 +401,12 @@ function M._render(buf, results, saved_row)
         local id_start = col
         text = text .. entry.change_id
         col = #text
-        table.insert(hls, { "NeoJJChangeId", id_start, col })
+        table.insert(hls, { "DojoChangeId", id_start, col })
 
         -- Parent label
         if is_parent then
           text = text .. " (parent)"
-          table.insert(hls, { "NeoJJParent", col, col + 9 })
+          table.insert(hls, { "DojoParent", col, col + 9 })
           col = #text
         end
 
@@ -419,13 +419,13 @@ function M._render(buf, results, saved_row)
         text = text .. desc
         col = #text
         if entry.description == "(no description set)" then
-          table.insert(hls, { "NeoJJDim", desc_start, col })
+          table.insert(hls, { "DojoDim", desc_start, col })
         end
 
         -- Empty tag
         if entry.empty then
           text = text .. " (empty)"
-          table.insert(hls, { "NeoJJEmpty", col, col + 8 })
+          table.insert(hls, { "DojoEmpty", col, col + 8 })
           col = #text
         end
 
@@ -436,7 +436,7 @@ function M._render(buf, results, saved_row)
           local bm_start = col
           text = text .. entry.bookmarks
           col = #text
-          table.insert(hls, { "NeoJJBookmark", bm_start, col })
+          table.insert(hls, { "DojoBookmark", bm_start, col })
         end
 
         -- Timestamp
@@ -444,7 +444,7 @@ function M._render(buf, results, saved_row)
         col = #text
         local ts_start = col
         text = text .. entry.timestamp
-        table.insert(hls, { "NeoJJTimestamp", ts_start, #text })
+        table.insert(hls, { "DojoTimestamp", ts_start, #text })
 
         add({
           text = text,
@@ -464,9 +464,9 @@ function M._render(buf, results, saved_row)
       for _, bm in ipairs(bookmarks) do
         local suffix = bm.tracking and "  (tracked)" or ""
         local text = "  " .. bm.name .. " -> " .. (bm.commit_id or "???") .. suffix
-        local hls = { { "NeoJJBookmark", 2, 2 + #bm.name } }
+        local hls = { { "DojoBookmark", 2, 2 + #bm.name } }
         if bm.tracking then
-          table.insert(hls, { "NeoJJBookmarkRemote", #text - #suffix, #text })
+          table.insert(hls, { "DojoBookmarkRemote", #text - #suffix, #text })
         end
         add({
           text = text,
@@ -479,7 +479,7 @@ function M._render(buf, results, saved_row)
   end
 
   -- === Aliases === (if cached)
-  local alias_cache = require("neojj.jj.aliases").get_cache()
+  local alias_cache = require("dojo.jj.aliases").get_cache()
   if alias_cache and #alias_cache > 0 then
     add_section(icons.aliases .. "Aliases", "Aliases", "press x to open menu")
     if not folds["Aliases"] then
@@ -488,8 +488,8 @@ function M._render(buf, results, saved_row)
         add({
           text = text,
           highlights = {
-            { "NeoJJAlias", 2, 2 + #a.name },
-            { "NeoJJAliasCmd", 2 + #a.name + 5, #text },
+            { "DojoAlias", 2, 2 + #a.name },
+            { "DojoAliasCmd", 2 + #a.name + 5, #text },
           },
           meta = { type = "alias", alias = a },
         })

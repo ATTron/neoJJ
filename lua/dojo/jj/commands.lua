@@ -2,8 +2,8 @@
 --- Each function wraps a jj CLI call and triggers a status refresh on success.
 local M = {}
 
-local jj = require("neojj.jj")
-local config = require("neojj.config")
+local jj = require("dojo.jj")
+local config = require("dojo.config")
 
 --- Callback helper: notify on error, refresh status on success.
 local function with_refresh(on_done)
@@ -12,7 +12,7 @@ local function with_refresh(on_done)
       vim.notify("jj: " .. vim.trim(result.stderr), vim.log.levels.ERROR)
     end
     if on_done then on_done(result) end
-    local status = require("neojj.ui.status")
+    local status = require("dojo.ui.status")
     if status.is_open() then status.refresh() end
   end
 end
@@ -38,7 +38,7 @@ function M.open_in_terminal(args)
           vim.api.nvim_buf_delete(term_buf, { force = true })
         end
       end
-      local status = require("neojj.ui.status")
+      local status = require("dojo.ui.status")
       if status.is_open() then status.refresh() end
     end,
   })

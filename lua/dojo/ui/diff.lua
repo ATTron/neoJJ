@@ -1,10 +1,10 @@
 --- Diff viewer buffer.
 local M = {}
 
-local jj = require("neojj.jj")
-local ui = require("neojj.ui")
+local jj = require("dojo.jj")
+local ui = require("dojo.ui")
 
-local BUF_NAME = "neojj://diff"
+local BUF_NAME = "dojo://diff"
 
 --- Show diff for a revision, optionally filtered to a single file.
 ---@param rev string|nil

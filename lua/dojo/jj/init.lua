@@ -1,6 +1,6 @@
 local M = {}
 
-local config = require("neojj.config")
+local config = require("dojo.config")
 
 ---@type string|nil
 M._workspace_root = nil
@@ -42,7 +42,7 @@ function M.run(args, opts, callback)
         stdout = obj.stdout or "",
         stderr = obj.stderr or "",
       }
-      require("neojj.log").command(args, result)
+      require("dojo.log").command(args, result)
       callback(result)
     end)
   end)

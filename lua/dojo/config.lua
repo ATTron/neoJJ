@@ -16,7 +16,7 @@ M.defaults = {
   default_rebase_dest = "main@origin",
   -- Enable nerd font icons (requires a patched font, optionally nvim-web-devicons)
   icons = false,
-  -- Write debug logs to ~/.local/state/nvim/neojj.log
+  -- Write debug logs to ~/.local/state/nvim/dojo.log
   debug = false,
 }
 

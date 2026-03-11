@@ -1,7 +1,7 @@
 --- Line-based renderer with extmark highlights.
 local M = {}
 
-local ns = vim.api.nvim_create_namespace("neojj")
+local ns = vim.api.nvim_create_namespace("dojo")
 
 --- Render lines into a buffer, replacing all content.
 --- Each line can be a string or a table { text = "...", highlights = {{group, col_start, col_end}} }.

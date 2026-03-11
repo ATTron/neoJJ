@@ -1,19 +1,19 @@
-*neojj.txt*    Magit-inspired Neovim interface for jj (Jujutsu)
+*dojo.txt*    Magit-inspired Neovim interface for jj (Jujutsu)
 
 ==============================================================================
-INTRODUCTION                                                    *neojj*
+INTRODUCTION                                                    *dojo*
 
-neoJJ is a Magit-style interface for jj (Jujutsu), a modern version control
+dojo.nvim is a Magit-style interface for jj (Jujutsu), a modern version control
 system. It provides a status buffer, log views, popups, and keybindings for
 common jj operations — all from within Neovim.
 
 Requirements: Neovim 0.10+, jj installed and on PATH.
 
 ==============================================================================
-SETUP                                                           *neojj-setup*
+SETUP                                                           *dojo-setup*
 
 Add to your Neovim config: >lua
-    require("neojj").setup({
+    require("dojo").setup({
       -- defaults shown
       jj_binary = "jj",
       log_limit = 15,
@@ -30,16 +30,16 @@ Add to your Neovim config: >lua
 <
 
 ==============================================================================
-COMMANDS                                                     *neojj-commands*
+COMMANDS                                                     *dojo-commands*
 
-:NeoJJ            Open the status buffer
-:NeoJJLog         Open the full log view
-:NeoJJOpLog       Open the operation log
-:NeoJJDebug       Open the debug log
-:NeoJJDebugClear  Clear the debug log
+:Dojo            Open the status buffer
+:DojoLog         Open the full log view
+:DojoOpLog       Open the operation log
+:DojoDebug       Open the debug log
+:DojoDebugClear  Clear the debug log
 
 ==============================================================================
-STATUS BUFFER                                                 *neojj-status*
+STATUS BUFFER                                                 *dojo-status*
 
 The status buffer shows working copy, conflicts, recent log, diff stats,
 bookmarks, and aliases in a single view. Sections can be folded with <Tab>.
@@ -73,7 +73,7 @@ Keybindings:
   ?          Help
 
 ==============================================================================
-POPUPS                                                        *neojj-popups*
+POPUPS                                                        *dojo-popups*
 
 Popups are floating windows with single-keypress actions. Press <Esc> or q
 to close without acting.
@@ -102,7 +102,7 @@ Aliases popup (x):~
   Shows aliases from jj config with auto-assigned keys.
 
 ==============================================================================
-ICONS                                                          *neojj-icons*
+ICONS                                                          *dojo-icons*
 
 Set `icons = true` in setup to enable nerd font icons. Requires a patched
 Nerd Font in your terminal. When disabled (the default), plain text badges
