@@ -2,8 +2,6 @@
 
 [Magit](https://github.com/magit/magit) and [neogit](https://github.com/NeogitOrg/neogit) inspired interface for [jj (Jujutsu)](https://github.com/jj-vcs/jj) inside Neovim.
 
-![demo](https://github.com/user-attachments/assets/f69175e9-6efa-43fd-9742-747a872db9d2)
-
 ## Install
 
 ### lazy.nvim
