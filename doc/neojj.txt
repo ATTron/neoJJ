@@ -1,0 +1,111 @@
+*neojj.txt*    Magit-inspired Neovim interface for jj (Jujutsu)
+
+==============================================================================
+INTRODUCTION                                                    *neojj*
+
+neoJJ is a Magit-style interface for jj (Jujutsu), a modern version control
+system. It provides a status buffer, log views, popups, and keybindings for
+common jj operations — all from within Neovim.
+
+Requirements: Neovim 0.10+, jj installed and on PATH.
+
+==============================================================================
+SETUP                                                           *neojj-setup*
+
+Add to your Neovim config: >lua
+    require("neojj").setup({
+      -- defaults shown
+      jj_binary = "jj",
+      log_limit = 15,
+      float_border = "rounded",
+      popup_width = 60,
+      open_mode = "current",
+      split_width = 80,
+      split_height = 20,
+      default_remote = "origin",
+      default_rebase_dest = "main@origin",
+      icons = false,
+    })
+<
+
+==============================================================================
+COMMANDS                                                     *neojj-commands*
+
+:NeoJJ          Open the status buffer
+:NeoJJLog       Open the full log view
+:NeoJJOpLog     Open the operation log
+
+==============================================================================
+STATUS BUFFER                                                 *neojj-status*
+
+The status buffer shows working copy, conflicts, recent log, diff stats,
+bookmarks, and aliases in a single view. Sections can be folded with <Tab>.
+The buffer auto-refreshes when files change in the working copy.
+
+Keybindings:
+
+  q          Close
+  gr         Refresh
+  <CR>       Open diff for file/change
+  <Tab>      Toggle section fold
+  j/k        Move between items (skip headers)
+  J/K        Move between sections
+
+  n          New change (jj new)
+  D          Describe working copy
+  s          Squash into parent
+  e          Edit change under cursor
+  a          Abandon (with confirmation)
+  u          Undo (jj undo)
+  d          Diff for change/file under cursor
+  S          Full working copy diff
+  l          Full log view
+
+  c          Change popup
+  b          Bookmark popup
+  R          Rebase popup
+  f          Remote (fetch/push) popup
+  o          Operation popup
+  x          Aliases popup (auto-discovered)
+  ?          Help
+
+==============================================================================
+POPUPS                                                        *neojj-popups*
+
+Popups are floating windows with single-keypress actions. Press <Esc> or q
+to close without acting.
+
+Change popup (c):~
+  n  new  |  d  describe  |  s  squash  |  S  split
+  a  abandon  |  e  edit  |  D  duplicate
+
+Rebase popup (R):~
+  d  rebase onto dest  |  s  rebase source  |  b  rebase branch
+  m  rebase onto main@origin
+
+Bookmark popup (b):~
+  s  set  |  c  create  |  t  track  |  d  delete
+  a  advance  |  m  move  |  e  edit (switch to)  |  l  list
+
+Remote popup (f):~
+  f  fetch all  |  F  fetch from remote  |  p  push  |  b  push bookmark
+  P  push all  |  e  export  |  i  import
+  l  list remotes  |  a  add remote  |  r  remove remote
+
+Operation popup (o):~
+  u  undo  |  l  op log  |  R  restore
+
+Aliases popup (x):~
+  Shows aliases from jj config with auto-assigned keys.
+
+==============================================================================
+ICONS                                                          *neojj-icons*
+
+Set `icons = true` in setup to enable nerd font icons. Requires a patched
+Nerd Font in your terminal. When disabled (the default), plain text badges
+are used instead ([M], [A], [D], [R]).
+
+If nvim-web-devicons is installed, file type icons are shown next to paths.
+
+==============================================================================
+ vim:tw=78:ft=help:norl:
