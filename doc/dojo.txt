@@ -60,6 +60,7 @@ Keybindings:
   e          Edit change under cursor
   a          Abandon (with confirmation)
   u          Undo (jj undo)
+  A          Absorb into ancestors (file-aware)
   d          Diff for change/file under cursor
   S          Full working copy diff
   l          Full log view
@@ -80,7 +81,7 @@ to close without acting.
 
 Change popup (c):~
   n  new  |  d  describe  |  s  squash  |  S  split
-  a  abandon  |  e  edit  |  D  duplicate
+  a  abandon  |  e  edit  |  D  duplicate  |  A  absorb
 
 Rebase popup (R):~
   d  rebase onto dest  |  s  rebase source  |  b  rebase branch
