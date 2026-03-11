@@ -63,6 +63,7 @@ require("neojj").setup({
   default_rebase_dest = "main@origin", -- for the quick rebase shortcut
 
   icons = false,              -- nerd font icons + devicons (see below)
+  debug = false,              -- write debug logs (see below)
 })
 ```
 
@@ -156,6 +157,20 @@ If an alias uses `util exec` (like a pre-commit hook or custom script), it opens
 | `:NeoJJ` | Status buffer |
 | `:NeoJJLog` | Full log with graph |
 | `:NeoJJOpLog` | Operation log |
+| `:NeoJJDebug` | Debug log |
+| `:NeoJJDebugClear` | Clear debug log |
+
+## Debugging
+
+neoJJ is young. If you hit a bug, enable debug logging and include the output in your issue:
+
+```lua
+require("neojj").setup({
+  debug = true,
+})
+```
+
+This logs every jj command and its result to `~/.local/state/nvim/neojj.log`. Run `:NeoJJDebug` to open it, `:NeoJJDebugClear` to reset it.
 
 ## License
 

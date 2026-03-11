@@ -25,15 +25,18 @@ Add to your Neovim config: >lua
       default_remote = "origin",
       default_rebase_dest = "main@origin",
       icons = false,
+      debug = false,
     })
 <
 
 ==============================================================================
 COMMANDS                                                     *neojj-commands*
 
-:NeoJJ          Open the status buffer
-:NeoJJLog       Open the full log view
-:NeoJJOpLog     Open the operation log
+:NeoJJ            Open the status buffer
+:NeoJJLog         Open the full log view
+:NeoJJOpLog       Open the operation log
+:NeoJJDebug       Open the debug log
+:NeoJJDebugClear  Clear the debug log
 
 ==============================================================================
 STATUS BUFFER                                                 *neojj-status*

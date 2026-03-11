@@ -37,11 +37,13 @@ function M.run(args, opts, callback)
     text = true,
   }, function(obj)
     vim.schedule(function()
-      callback({
+      local result = {
         code = obj.code,
         stdout = obj.stdout or "",
         stderr = obj.stderr or "",
-      })
+      }
+      require("neojj.log").command(args, result)
+      callback(result)
     end)
   end)
 end
