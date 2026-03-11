@@ -1,19 +1,12 @@
 # neoJJ
 
-Magit-style interface for [jj (Jujutsu)](https://github.com/jj-vcs/jj) inside Neovim.
+[Magit](https://github.com/magit/magit) and [neogit](https://github.com/NeogitOrg/neogit) inspried interface for [jj (Jujutsu)](https://github.com/jj-vcs/jj) inside Neovim.
 
 ## Why?
 
-[Neogit](https://github.com/NeogitOrg/neogit) exists for git users. I wanted something very similar to this experience but with jj workflow.
+Neogit exists for git users using neovim and wanting the magit experience. I wanted something very similar to this experience but with jj workflow.
 
-jj has a fundamentally different model; your working copy *is* a commit, there's no staging area, bookmarks replace branches, and the operation log lets you undo anything. neoJJ respects all of that.
-
-## What you need
-
-- Neovim 0.10+
-- jj on your PATH
-
-**Optional:** [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) for file type icons (only used when `icons = true`).
+jj has a fundamentally different model; your working copy *is* a commit, there's no staging area, bookmarks replace branches, and the operation log lets you undo anything. neoJJ respects all of that
 
 ## Install
 
@@ -23,7 +16,7 @@ jj has a fundamentally different model; your working copy *is* a commit, there's
 {
   "ATTron/neoJJ",
   dependencies = {
-    "nvim-tree/nvim-web-devicons", -- optional, for file icons
+    "nvim-tree/nvim-web-devicons", -- optional, used for pretty icons
   },
   keys = {
     { "<leader>jj", "<cmd>NeoJJ<cr>", desc = "Open NeoJJ" },
