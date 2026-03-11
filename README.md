@@ -2,11 +2,7 @@
 
 [Magit](https://github.com/magit/magit) and [neogit](https://github.com/NeogitOrg/neogit) inspried interface for [jj (Jujutsu)](https://github.com/jj-vcs/jj) inside Neovim.
 
-## Why?
-
-Neogit exists for git users using neovim and wanting the magit experience. I wanted something very similar to this experience but with jj workflow.
-
-jj has a fundamentally different model; your working copy *is* a commit, there's no staging area, bookmarks replace branches, and the operation log lets you undo anything. neoJJ respects all of that
+![demo](https://github.com/user-attachments/assets/f69175e9-6efa-43fd-9742-747a872db9d2)
 
 ## Install
 
@@ -171,6 +167,12 @@ require("neojj").setup({
 ```
 
 This logs every jj command and its result to `~/.local/state/nvim/neojj.log`. Run `:NeoJJDebug` to open it, `:NeoJJDebugClear` to reset it.
+
+## Why?
+
+Neogit exists for git users using neovim and wanting the magit experience. I wanted something very similar to this experience but with jj workflow.
+
+jj has a fundamentally different model; your working copy *is* a commit, there's no staging area, bookmarks replace branches, and the operation log lets you undo anything. neoJJ respects all of that
 
 ## License
 
