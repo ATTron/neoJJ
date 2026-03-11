@@ -32,7 +32,7 @@ Neovim 0.12 ships with a built-in package manager. Add this to your config:
 ```lua
 vim.pack.add({
   -- optional, used for pretty icons
-  { src = { "https://github.com/nvim-tree/nvim-web-devicons"},
+  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/ATTron/dojo.nvim" },
 })
 
