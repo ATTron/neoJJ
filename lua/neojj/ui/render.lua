@@ -29,11 +29,16 @@ function M.render(buf, lines, line_meta)
   -- Apply highlights
   for i, line in ipairs(lines) do
     if type(line) == "table" and line.highlights then
+      local line_len = #(text_lines[i] or "")
       for _, hl in ipairs(line.highlights) do
-        vim.api.nvim_buf_set_extmark(buf, ns, i - 1, hl[2], {
-          end_col = hl[3],
-          hl_group = hl[1],
-        })
+        local col_start = math.min(hl[2], line_len)
+        local col_end = math.min(hl[3], line_len)
+        if col_start < col_end then
+          vim.api.nvim_buf_set_extmark(buf, ns, i - 1, col_start, {
+            end_col = col_end,
+            hl_group = hl[1],
+          })
+        end
       end
     end
     -- Store metadata
