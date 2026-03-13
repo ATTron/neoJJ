@@ -7,6 +7,8 @@ local config = require("dojo.config")
 -- Track all open popup windows so we can close them externally
 M._open_wins = {}
 
+local ns = vim.api.nvim_create_namespace("dojo_popup")
+
 --- Open a popup menu.
 ---@param opts table { title: string, items: {{key, label, action}}, width?: int }
 ---@return integer win_id
@@ -47,7 +49,6 @@ function M.open(opts)
   })
 
   -- Highlights
-  local ns = vim.api.nvim_create_namespace("dojo_popup")
   -- Title highlight
   vim.api.nvim_buf_set_extmark(buf, ns, 0, 0, {
     end_col = #lines[1],

@@ -118,6 +118,7 @@ From here, everything is a keypress away. Press `?` if you forget something.
 | `e` | Edit the change under your cursor |
 | `a` | Abandon a change (asks you first) |
 | `u` | Undo the last operation |
+| `A` | Absorb changes into ancestor commits (file-aware) |
 | `d` | Show the diff for whatever's under your cursor |
 | `S` | Full working copy diff |
 | `l` | Open the full log view |
@@ -130,7 +131,7 @@ These open floating menus with more options. Hit a key to pick an action, `Esc` 
 
 | Key | Menu | What's inside |
 |-----|------|--------------|
-| `c` | Change | new, describe, squash, split, abandon, edit, duplicate |
+| `c` | Change | new, describe, squash, split, abandon, edit, duplicate, absorb |
 | `b` | Bookmark | set, create, track, delete, advance, move, edit (switch to), list |
 | `R` | Rebase | onto destination, source tree, branch, quick rebase to default |
 | `f` | Git | fetch, fetch from remote, push, push bookmark, push all, export, import, list/add/remove remotes |

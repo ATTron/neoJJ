@@ -49,10 +49,15 @@ local refresh_gen = 0
 
 -- Cache last query results so fold toggles can re-render without re-querying
 local last_results = nil
+local last_results_time = 0
+local RESULT_CACHE_MS = 200
 
 -- File watcher for auto-refresh
 local watcher = nil
 local refresh_timer = nil
+
+-- Lazy alias fetch: only once per session
+local aliases_fetched = false
 
 --- Is the status buffer open?
 function M.is_open()
@@ -118,11 +123,31 @@ function M.close()
   line_meta = {}
 end
 
+--- Invalidate the result cache so the next refresh queries fresh data.
+function M.invalidate()
+  last_results_time = 0
+end
+
 --- Refresh: query jj and re-render.
 --- Debounced — rapid calls discard stale results.
 function M.refresh()
   local buf = ui.get_buf(BUF_NAME)
   if not buf then return end
+
+  -- Fetch aliases lazily on first refresh
+  if not aliases_fetched then
+    aliases_fetched = true
+    require("dojo.jj.aliases").fetch(function() end)
+  end
+
+  -- If we have recent results, just re-render from cache
+  local now = vim.uv.hrtime() / 1e6
+  if last_results and (now - last_results_time) < RESULT_CACHE_MS then
+    local cursor_ok, cursor = pcall(vim.api.nvim_win_get_cursor, 0)
+    local saved_row = cursor_ok and cursor[1] or 1
+    M._render(buf, last_results, saved_row)
+    return
+  end
 
   -- Bump generation so any in-flight refresh is discarded
   refresh_gen = refresh_gen + 1
@@ -176,6 +201,7 @@ end
 function M._render(buf, results, saved_row)
   if not vim.api.nvim_buf_is_valid(buf) then return end
   last_results = results
+  last_results_time = vim.uv.hrtime() / 1e6
 
   local icons = config.values.icons and nerd_icons or plain_icons
   local use_devicons = config.values.icons and has_devicons
@@ -554,7 +580,7 @@ local function debounced_refresh()
     refresh_timer:stop()
   end
   refresh_timer = vim.uv.new_timer()
-  refresh_timer:start(300, 0, function()
+  refresh_timer:start(500, 0, function()
     refresh_timer:stop()
     refresh_timer = nil
     vim.schedule(function()
@@ -571,8 +597,20 @@ function M._start_watcher(root)
 
   w:start(root, { recursive = true }, function(err, filename)
     if err then return end
-    -- Ignore changes inside .jj/ itself (internal state churn)
-    if filename and filename:match("^%.jj/") then return end
+    if filename then
+      -- Ignore internal/noisy directories
+      if filename:match("^%.jj/")
+        or filename:match("^%.git/")
+        or filename:match("^node_modules/")
+        or filename:match("^build/")
+        or filename:match("^dist/")
+        or filename:match("^target/")
+        or filename:match("^%.next/")
+        or filename:match("^__pycache__/")
+      then
+        return
+      end
+    end
     debounced_refresh()
   end)
 

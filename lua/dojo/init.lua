@@ -6,9 +6,6 @@ local M = {}
 function M.setup(opts)
   require("dojo.config").setup(opts)
   require("dojo.hl").setup()
-
-  -- Pre-fetch aliases in the background
-  require("dojo.jj.aliases").fetch(function() end)
 end
 
 --- Open the status buffer.

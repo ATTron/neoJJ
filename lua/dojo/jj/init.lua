@@ -42,7 +42,9 @@ function M.run(args, opts, callback)
         stdout = obj.stdout or "",
         stderr = obj.stderr or "",
       }
-      require("dojo.log").command(args, result)
+      if require("dojo.config").values.debug then
+        require("dojo.log").command(args, result)
+      end
       callback(result)
     end)
   end)

@@ -13,7 +13,10 @@ local function with_refresh(on_done)
     end
     if on_done then on_done(result) end
     local status = require("dojo.ui.status")
-    if status.is_open() then status.refresh() end
+    if status.is_open() then
+      status.invalidate()
+      status.refresh()
+    end
   end
 end
 
@@ -39,7 +42,10 @@ function M.open_in_terminal(args)
         end
       end
       local status = require("dojo.ui.status")
-      if status.is_open() then status.refresh() end
+      if status.is_open() then
+        status.invalidate()
+        status.refresh()
+      end
     end,
   })
 end
@@ -82,6 +88,33 @@ function M.duplicate(rev, on_done)
   local args = { "duplicate" }
   if rev then table.insert(args, rev) end
   jj.run(args, {}, with_refresh(on_done))
+end
+
+function M.absorb(from, on_done)
+  local args = { "absorb" }
+  if from then vim.list_extend(args, { "--from", from }) end
+  jj.run(args, {}, function(result)
+    if result.code == 0 then
+      local msg = vim.trim(result.stdout)
+      if msg == "" then msg = "Nothing to absorb" end
+      vim.notify(msg, vim.log.levels.INFO)
+    end
+    with_refresh(on_done)(result)
+  end)
+end
+
+function M.absorb_file(path, from, on_done)
+  local args = { "absorb" }
+  if from then vim.list_extend(args, { "--from", from }) end
+  table.insert(args, path)
+  jj.run(args, {}, function(result)
+    if result.code == 0 then
+      local msg = vim.trim(result.stdout)
+      if msg == "" then msg = "Nothing to absorb" end
+      vim.notify(msg, vim.log.levels.INFO)
+    end
+    with_refresh(on_done)(result)
+  end)
 end
 
 function M.rebase_dest(dest, on_done)

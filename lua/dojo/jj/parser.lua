@@ -120,34 +120,38 @@ function M.parse_oplog(stdout)
   return ops
 end
 
---- Build the template string for jj log
+-- Pre-built template strings (constants)
+local LOG_TEMPLATE = table.concat({
+  'change_id.short()',
+  '"\t"',
+  'commit_id.short()',
+  '"\t"',
+  'description.first_line()',
+  '"\t"',
+  'bookmarks',
+  '"\t"',
+  'author.timestamp().ago()',
+  '"\t"',
+  'if(conflict, "conflict")',
+  '"\t"',
+  'if(empty, "empty")',
+  '"\t"',
+  'if(current_working_copy, "@")',
+  '"\n"',
+}, " ++ ")
+
+local BOOKMARK_TEMPLATE = 'if(remote, "", name ++ "\t" ++ if(tracking_present, "tracked", "local") ++ "\t" ++ if(normal_target, normal_target.commit_id().short(), "???") ++ "\n")'
+
+--- Get the template string for jj log
 ---@return string
 function M.log_template()
-  return table.concat({
-    'change_id.short()',
-    '"\t"',
-    'commit_id.short()',
-    '"\t"',
-    'description.first_line()',
-    '"\t"',
-    'bookmarks',
-    '"\t"',
-    'author.timestamp().ago()',
-    '"\t"',
-    'if(conflict, "conflict")',
-    '"\t"',
-    'if(empty, "empty")',
-    '"\t"',
-    'if(current_working_copy, "@")',
-    '"\n"',
-  }, " ++ ")
+  return LOG_TEMPLATE
 end
 
---- Build the template string for jj bookmark list
+--- Get the template string for jj bookmark list
 ---@return string
 function M.bookmark_template()
-  -- Skip remote entries (output nothing), only emit local bookmarks
-  return 'if(remote, "", name ++ "\t" ++ if(tracking_present, "tracked", "local") ++ "\t" ++ if(normal_target, normal_target.commit_id().short(), "???") ++ "\n")'
+  return BOOKMARK_TEMPLATE
 end
 
 return M

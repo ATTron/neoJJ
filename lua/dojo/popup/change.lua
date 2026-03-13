@@ -1,4 +1,4 @@
---- Change popup: new, describe, squash, split, abandon, edit, duplicate.
+--- Change popup: new, describe, squash, split, abandon, edit, duplicate, absorb.
 local M = {}
 
 local popup = require("dojo.popup")
@@ -35,6 +35,9 @@ function M.open()
       end },
       { "D", "duplicate" .. (rev and (" " .. rev) or ""), function()
         commands.duplicate(rev)
+      end },
+      { "A", "absorb into ancestors", function()
+        commands.absorb(rev)
       end },
     },
   })
