@@ -28,6 +28,12 @@ local groups = {
   DojoEmpty = { link = "Comment" },
   DojoBookmarkUntracked = { link = "Comment" },
   DojoParent = { bold = true, italic = true, fg = "#888888" },
+  DojoDiffHeader = { link = "Title" },
+  DojoDiffAdded = { link = "Added" },
+  DojoDiffRemoved = { link = "Removed" },
+  DojoDiffContext = { link = "Comment" },
+  DojoDiffSeparator = { link = "NonText" },
+  DojoDiffLineNr = { link = "LineNr" },
 }
 
 function M.setup()
