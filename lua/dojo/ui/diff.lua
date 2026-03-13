@@ -6,13 +6,22 @@ local ui = require("dojo.ui")
 
 local BUF_NAME = "dojo://diff"
 
+--- Quote a file path for use in a jj fileset expression.
+--- Wrapping in double quotes prevents special characters (parentheses,
+--- brackets, braces, etc.) from being interpreted as fileset operators.
+---@param p string
+---@return string
+local function fileset_quote(p)
+  return '"' .. p:gsub('\\', '\\\\'):gsub('"', '\\"') .. '"'
+end
+
 --- Show diff for a revision, optionally filtered to a single file.
 ---@param rev string|nil
 ---@param path string|nil
 function M.show(rev, path)
   local args = { "diff" }
   if rev then vim.list_extend(args, { "-r", rev }) end
-  if path then table.insert(args, path) end
+  if path then table.insert(args, fileset_quote(path)) end
 
   jj.run(args, {}, function(result)
     if result.code ~= 0 then
