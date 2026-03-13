@@ -106,7 +106,8 @@ end
 function M.absorb_file(path, from, on_done)
   local args = { "absorb" }
   if from then vim.list_extend(args, { "--from", from }) end
-  table.insert(args, path)
+  -- Quote path for jj fileset to handle special characters (brackets, parens, etc.)
+  table.insert(args, '"' .. path:gsub('\\', '\\\\'):gsub('"', '\\"') .. '"')
   jj.run(args, {}, function(result)
     if result.code == 0 then
       local msg = vim.trim(result.stdout)
