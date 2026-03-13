@@ -366,7 +366,22 @@ function M._render(buf, results, saved_row)
           -- Extract file path (everything before the |, trimmed)
           local path = vim.trim(line:match("^(.-)%s*|"))
           if path and path ~= "" then
-            meta = { type = "file", path = path }
+            -- jj diff --stat truncates long paths with "..." prefix.
+            -- Resolve truncated paths against full paths from jj status.
+            if path:match("^%.%.%.") then
+              local suffix = path:sub(4) -- strip leading "..."
+              for _, f in ipairs(status.files) do
+                if f.path:find(suffix, 1, true) then
+                  path = f.path
+                  break
+                end
+              end
+              -- If still truncated (no match found), skip it
+              if path:match("^%.%.%.") then path = nil end
+            end
+            if path then
+              meta = { type = "file", path = path }
+            end
           end
           local plus_start = text:find("%+", bar_start)
           local minus_start = text:find("%-", bar_start)
