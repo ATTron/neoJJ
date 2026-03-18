@@ -48,11 +48,15 @@ function M.attach(buf)
   map(buf, "a", function()
     local meta = require("dojo.ui.status").cursor_meta()
     local target = (meta and meta.change_id) or "@"
-    vim.ui.select({ "Yes", "No" }, { prompt = "Abandon " .. target .. "?" }, function(choice)
-      if choice == "Yes" then require("dojo.jj.commands").abandon(target) end
+    require("dojo.util").confirm("Abandon " .. target .. "?", function()
+      require("dojo.jj.commands").abandon(target)
     end)
   end)
-  map(buf, "u", function() require("dojo.jj.commands").undo() end)
+  map(buf, "u", function()
+    require("dojo.util").confirm("Undo last operation?", function()
+      require("dojo.jj.commands").undo()
+    end)
+  end)
 
   -- Absorb: context-aware (file under cursor or all)
   map(buf, "A", function()
